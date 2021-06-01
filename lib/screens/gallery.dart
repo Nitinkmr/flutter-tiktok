@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
@@ -14,6 +15,7 @@ class Gallery extends StatefulWidget {
 class _GalleryScreenState extends State<Gallery> {
   File _cameraImage;
   File _galleryVideo;
+  final _firebaseStorage = FirebaseStorage.instance;
 
   ImagePicker picker = null;
   VideoPlayerController _galleryVideoPlayerController;
@@ -76,5 +78,13 @@ class _GalleryScreenState extends State<Gallery> {
         setState(() {});
         _galleryVideoPlayerController.play();
       });
+
+    uploadImageToFirebase(_galleryVideo);
+  }
+
+  Future<void> uploadImageToFirebase(File galleryVideo) async {
+    await _firebaseStorage.ref().child('videos/video1.mp4')
+        .putFile(galleryVideo).onComplete;
+
   }
 }
