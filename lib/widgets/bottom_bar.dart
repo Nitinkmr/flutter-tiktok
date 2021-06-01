@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/screens/feed_viewmodel.dart';
+import 'package:tiktok_flutter/screens/gallery.dart';
 import 'package:tiktok_flutter/utils/tik_tok_icons_icons.dart';
 import 'package:get_it/get_it.dart';
 
@@ -11,40 +12,44 @@ class BottomBar extends StatelessWidget {
 
   const BottomBar({Key key}) : super(key: key);
 
-  Widget get customCreateIcon => Container(
-      width: 45.0,
-      height: 27.0,
-      child: Stack(children: [
-        Container(
-            margin: EdgeInsets.only(left: 10.0),
-            width: CreateButtonWidth,
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 250, 45, 108),
-                borderRadius: BorderRadius.circular(7.0))),
-        Container(
-            margin: EdgeInsets.only(right: 10.0),
-            width: CreateButtonWidth,
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 32, 211, 234),
-                borderRadius: BorderRadius.circular(7.0))),
-        Center(
-            child: Container(
-          height: double.infinity,
-          width: CreateButtonWidth,
-          decoration: BoxDecoration(
-              color: GetIt.instance<FeedViewModel>().actualScreen == 0
-                  ? Colors.white
-                  : Colors.black,
-              borderRadius: BorderRadius.circular(7.0)),
-          child: Icon(
-            Icons.add,
-            color: GetIt.instance<FeedViewModel>().actualScreen == 0
-                ? Colors.black
-                : Colors.white,
-            size: 20.0,
-          ),
-        )),
-      ]));
+  Widget  customCreateIcon(BuildContext context) => InkWell(
+    onTap: (){openGallery(context);},
+      child: Container(
+        width: 45.0,
+        height: 27.0,
+        child: Stack(children: [
+          Container(
+              margin: EdgeInsets.only(left: 10.0),
+              width: CreateButtonWidth,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 250, 45, 108),
+                  borderRadius: BorderRadius.circular(7.0))),
+          Container(
+              margin: EdgeInsets.only(right: 10.0),
+              width: CreateButtonWidth,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 32, 211, 234),
+                  borderRadius: BorderRadius.circular(7.0))),
+          Center(
+              child: Container(
+                height: double.infinity,
+                width: CreateButtonWidth,
+                decoration: BoxDecoration(
+                    color: GetIt.instance<FeedViewModel>().actualScreen == 0
+                        ? Colors.white
+                        : Colors.black,
+                    borderRadius: BorderRadius.circular(7.0)),
+                child: Icon(
+                  Icons.add,
+                  color: GetIt.instance<FeedViewModel>().actualScreen == 0
+                      ? Colors.black
+                      : Colors.white,
+                  size: 20.0,
+                ),
+              )),
+        ]),
+      ),
+  ) ;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,7 @@ class BottomBar extends StatelessWidget {
               SizedBox(
                 width: 15,
               ),
-              customCreateIcon,
+              customCreateIcon(context),
               SizedBox(
                 width: 15,
               ),
@@ -122,5 +127,16 @@ class BottomBar extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  openGallery(BuildContext context) {
+    print("asd");
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => Gallery(
+
+        ),
+      ),
+    );
   }
 }

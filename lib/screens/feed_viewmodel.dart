@@ -16,12 +16,17 @@ class FeedViewModel extends BaseViewModel {
   }
 
   changeVideo(index) async {
-    videoSource.listVideos[prevVideo].controller.pause();
+
+    //videoSource.listVideos[prevVideo].controller.pause();
+    if (videoSource.listVideos[prevVideo].controller != null) {
+      videoSource.listVideos[prevVideo].controller.pause();
+      videoSource.listVideos[prevVideo].controller.removeListener(() {});
+    }
     if (videoSource.listVideos[index].controller == null) {
       await videoSource.listVideos[index].loadController();
     }
     videoSource.listVideos[index].controller.play();
-    videoSource.listVideos[prevVideo].controller.removeListener(() {});
+    //videoSource.listVideos[prevVideo].controller.removeListener(() {});
 
     //videoSource.listVideos[prevVideo].controller.dispose();
 
@@ -32,9 +37,12 @@ class FeedViewModel extends BaseViewModel {
   }
 
   void loadVideo(int index) async {
-    await videoSource.listVideos[index].loadController();
-    //videoSource.listVideos[index].controller.play();
-    notifyListeners();
+    if(index < videoSource.listVideos.length){
+      await videoSource.listVideos[index].loadController();
+      //videoSource.listVideos[index].controller.play();
+      notifyListeners();
+    }
+
   }
 
   void setActualScreen(index) {
