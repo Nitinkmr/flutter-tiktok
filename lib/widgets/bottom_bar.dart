@@ -130,12 +130,10 @@ class BottomBar extends StatelessWidget {
   }
 
   openGallery(BuildContext context) {
-    print("asd");
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => Gallery(
-
-        ),
+        builder: (context) => Gallery(),
       ),
     );
   }

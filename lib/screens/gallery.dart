@@ -1,62 +1,80 @@
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
-class Gallery extends StatefulWidget{
-
+class Gallery extends StatefulWidget {
   Gallery({Key key}) : super(key: key);
 
   @override
-  _GalleryScreenState createState() =>_GalleryScreenState ();
+  _GalleryScreenState createState() => _GalleryScreenState();
 }
 
-class _GalleryScreenState extends State<Gallery>{
-  File  _cameraImage;
-  var picker = null;
+class _GalleryScreenState extends State<Gallery> {
+  File _cameraImage;
+  File _galleryVideo;
+
+  ImagePicker picker = null;
+  VideoPlayerController _galleryVideoPlayerController;
 
   @override
   void initState() {
-     super.initState();
-     if(this.picker == null)
-       this.picker = new ImagePicker();
+    super.initState();
+    if (this.picker == null) this.picker = new ImagePicker();
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _pickVideoFromGallery());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          child: Column(
-              children: <Widget>[
-                if(_cameraImage != null)
-                  Image.file(_cameraImage)
-                else
-                  Text("Click on Pick Image to select an Image", style: TextStyle(fontSize: 18.0),),
-                RaisedButton(
-                  onPressed: () {
-                    _pickImageFromGallery();
-                    // or
-                    // _pickImageFromCamera();
-                    // use the variables accordingly
-                  },
-                  child: Text("Pick Image From Gallery"),
-                ),
-              ]
-          )
-      ),
+          child: Column(children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                child: Container(
+              color: Colors.white,
+              height: 100,
+            ))
+          ],
+        ),
+
+            Expanded(
+              child: Container(
+                  child: AspectRatio(
+                aspectRatio: _galleryVideoPlayerController.value.aspectRatio,
+                child: VideoPlayer(_galleryVideoPlayerController),
+              )),
+            ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                child: Container(
+              color: Colors.white,
+              height: 100,
+            ))
+          ],
+        ),
+      ])),
     );
   }
 
+  void _pickVideoFromGallery() async {
+    PickedFile pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
-  void _pickImageFromGallery() async {
-    PickedFile pickedFile = await picker.getImage(source: ImageSource.camera, imageQuality: 50);
-
-    File image = File(pickedFile.path);
-
-    setState(() {
-      _cameraImage = image;
-    });
+    _galleryVideo = File(pickedFile.path);
+    _galleryVideoPlayerController = VideoPlayerController.file(_galleryVideo)
+      ..initialize().then((_) {
+        setState(() {});
+        _galleryVideoPlayerController.play();
+      });
   }
 }
