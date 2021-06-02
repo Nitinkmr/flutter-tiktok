@@ -1,12 +1,48 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+
+  User googleUserObject;
+  ProfileScreen({Key key, this.googleUserObject}) : super(key: key);
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState(googleUserObject);
+}
+
+class _ProfileScreenState extends State<ProfileScreen>{
+
+  User _googleUserObject;
+
+  _ProfileScreenState(User googleUserObject ){
+    this._googleUserObject = googleUserObject;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+        child: showScreenOrLogin(),
+    );
+  }
+
+  showScreenOrLogin() {
+
+    if(FirebaseAuth.instance.currentUser != null){
+      return Text("loggwd in");
+    }else
+      return SignInScreen();
+      // return Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(
+      //       builder: (context) => SignInScreen()
+      //   ),
+      // );
+  }
+
+
+  /*
+  *  return SafeArea(
       child: Container(
         color: Colors.white,
         child: Column(
@@ -374,5 +410,5 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
-  }
+  * */
 }

@@ -73,29 +73,38 @@ class _GalleryScreenState extends State<Gallery> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            InkWell(
-              onTap:(){ _pickVideoFromGallery() ;},
-                child: Container(
-              color: Colors.white,
-              height: 100,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(deleteIcon,color: Colors.black,size: 50)
-                      
-                    ],
-                  ),
-            )),
-            InkWell(
-                onTap:(){ uploadVideoToFirebaseAndGoBack(_galleryVideo) ;},
-                child: Container(
-                  color: Colors.white,
-                  height: 100,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(checkIcon,color: Colors.black,size: 50)
-                    ],
-                  ),
-                ))
+            Expanded(
+              child: (
+                InkWell(
+                    onTap:(){ _pickVideoFromGallery() ;},
+                    child: Container(
+                      color: Colors.white,
+                      height: 100,
+                      child: Column(
+                        children: <Widget>[
+                          Icon(deleteIcon,color: Colors.black,size: 50)
+
+                        ],
+                      ),
+                    ))
+              )
+            ),
+            Expanded(
+              child:
+                InkWell(
+                    onTap:(){ uploadVideoToFirebaseAndGoBack(_galleryVideo) ;},
+                    child: Container(
+                      color: Colors.white,
+                      height: 100,
+                      child: Column(
+                        children: <Widget>[
+                          Icon(checkIcon,color: Colors.black,size: 50)
+                        ],
+                      ),
+                    ))
+              ,
+            )
+
           ],
         ),
       ])),
