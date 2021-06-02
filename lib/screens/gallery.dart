@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 class Gallery extends StatefulWidget {
@@ -83,8 +85,34 @@ class _GalleryScreenState extends State<Gallery> {
   }
 
   Future<void> uploadImageToFirebase(File galleryVideo) async {
-    await _firebaseStorage.ref().child('videos/video1.mp4')
-        .putFile(galleryVideo).onComplete;
+    Future<File> result = testCompressAndGetFile(galleryVideo,"");
+   // print(galleryVideo.lengthSync());
+    result.then((value) async => {
+  //  print(value.length);
+        await _firebaseStorage.ref().child('videos/video2.mp4')
+        .putFile(value).onComplete
+    });
 
+
+  }
+
+ Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    // var result = await FlutterImageCompress.compressAndGetFile(
+    //   file.absolute.path, targetPath,
+    //   quality: 88,
+    //   rotate: 180,
+    // );
+    //
+    // print(file.lengthSync());
+    // print(result.lengthSync());
+    //
+    // return result;
+
+    MediaInfo mediaInfo = await VideoCompress.compressVideo(
+      file.path,
+      quality: VideoQuality.DefaultQuality,
+      deleteOrigin: false, // It's false by default
+    );
+    return mediaInfo.file;
   }
 }
