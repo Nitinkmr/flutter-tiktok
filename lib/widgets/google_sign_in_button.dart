@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/screens/profile_screen.dart';
+import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:tiktok_flutter/utils/authentication.dart';
 
 class GoogleSignInButton extends StatefulWidget {
@@ -40,22 +43,26 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
+                  MyUser.User myUser = null;
+                  var userFuture = await DatabaseService().getUserData(user.email);
+
+                  if(userFuture.docs != null && userFuture.docs.length > 0  ){
+                    myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+                  }else{
+                     await DatabaseService().createUser(user);
+                    userFuture = await DatabaseService().getUserData(user.email);
+                    if(userFuture.docs != null && userFuture.docs.length > 0  ){
+                      myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+                    }
+                  }
+                  await Authentication.signOut(context: context);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => ProfileScreen()
+                      builder: (context) => ProfileScreen(myUser: myUser)
                     ),
                   );
                }
 
-                if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      // builder: (context) => UserInfoScreen(
-                      //   user: user,
-                      // ),
-                    ),
-                  );
-                }
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -86,4 +93,10 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
             ),
     );
   }
+
+  // setUser(existingUser) {
+  //
+  //   MyUser.User myUser = MyUser.User.convert(existingUser);
+  //   myUser.
+  // }
 }
