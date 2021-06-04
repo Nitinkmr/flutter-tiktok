@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
     if(FirebaseAuth.instance.currentUser != null){
       User currentUser = FirebaseAuth.instance.currentUser;
-      return displayProfile(currentUser);
+      return displayProfile();
     }else
       return SignInScreen();
       // return Navigator.of(context).pushReplacement(
@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
       // );
   }
 
-  displayProfile(User currentUser) {
+  displayProfile() {
 
     return SafeArea(
       child: Container(
@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 children: [
                   Icon(Icons.person_add_alt_1_outlined),
                   Text(
-                    currentUser.displayName,
+                    myUser.name,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                   Icon(Icons.more_horiz)
@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     height: 10,
                   ),
                   Text(
-                    "@salvadordev",
+                    myUser.userName,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -105,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                       Column(
                         children: [
                           Text(
-                            "36",
+                            myUser.numFollowing.toString(),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),

@@ -53,11 +53,11 @@ class DatabaseService {
     });
   }
 
-  Future createUser(User user) async {
+  Future createUser(User user,String userName) async {
     return await userCollection.add({
 
        'name': user.displayName,
-       'userName':user.displayName,
+       'userName': userName,
        'email': user.email,
        'profilePic': user.photoURL,
        'pics': [],
@@ -127,13 +127,31 @@ class DatabaseService {
   Future getUserData(String email) async {
     QuerySnapshot snapshot = await userCollection.where('email', isEqualTo: email).get();
 
-    print(snapshot.docs[0].data()['name']);
+    //print(snapshot.docs[0].data()['name']);
     return snapshot;
   }
 
-  getUsers() {
-    return  userCollection.snapshots();
+  getUsers() async {
+    return await userCollection.snapshots();
   }
+
+  Future getUserWithUserName(String userName) async {
+    /*
+    * The Cloud Firestore client-side SDKs always read and returns full documents.
+    * There is no way to read a subset of the fields in a document.
+    * You can retrieve the entire document, and then process the DocumentSnapshot
+    * to just use the fields you're interested. But this means you're using more bandwidth than needed.
+    *  If this is a regular occurrence for your app, consider creating a secondary collection where each
+    * document contains just the fields you're interested in.
+    *
+    * */
+    //TODO create new collection for just userNames
+
+    QuerySnapshot snapshot = await userCollection.where('userName', isEqualTo: userName).get();
+
+    return snapshot;
+  }
+
 
 
   // get chats of a particular group

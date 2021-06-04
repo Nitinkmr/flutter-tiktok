@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/screens/profile_screen.dart';
+import 'package:tiktok_flutter/screens/registration_screen.dart';
 import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:tiktok_flutter/utils/authentication.dart';
 
@@ -43,25 +44,22 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                  MyUser.User myUser = null;
-                  var userFuture = await DatabaseService().getUserData(user.email);
+                    MyUser.User myUser = null;
+                    var userFuture = await DatabaseService().getUserData(user.email);
 
-                  if(userFuture.docs != null && userFuture.docs.length > 0  ){
-                    myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
-                  }else{
-                     await DatabaseService().createUser(user);
-                    userFuture = await DatabaseService().getUserData(user.email);
                     if(userFuture.docs != null && userFuture.docs.length > 0  ){
-                      myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
-                    }
+                       myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+                    }else{
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => Register(user)
+                          ),
+                        );
                   }
-                  await Authentication.signOut(context: context);
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScreen(myUser: myUser)
-                    ),
-                  );
-               }
+
+               }else{
+                  // TODO this could be google auth error
+                }
 
               },
               child: Padding(
