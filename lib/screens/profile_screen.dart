@@ -24,12 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // if (FirebaseAuth.instance.currentUser != null && myUser == null) {
-    //   DatabaseService()
-    //       .getUserData(FirebaseAuth.instance.currentUser.email)
-    //       .then((value) =>
-    //   {myUser = MyUser.User.convertFromSnapshot(value.docs[0].data())});
-    // }
   }
 
   @override
@@ -39,14 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       displayProfile()
     );
   }
-
-  // showScreenOrLogin() {
-  //   if (FirebaseAuth.instance.currentUser != null) {
-  //     return displayProfile();
-  //   } else
-  //     return SignInScreen();
-  // }
-
   displayProfile() {
     return SafeArea(
         child: Container(
@@ -71,10 +57,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return showProfile(myUser);
               }
             }
-            return SignInScreen();
+            return   CircularProgressIndicator();
           });
     }else
-      return SignInScreen();
+      return Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => SignInScreen()
+        ),
+      );
   }
 
 
