@@ -1,7 +1,5 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
@@ -53,11 +51,17 @@ class DatabaseService {
     });
   }
 
+  Future updateUserVideoLinks(String emailId,String videoUrl) async {
+    DocumentReference userDocRef = userCollection.doc(emailId);
+    return await userDocRef.update({
+        'videos' : FieldValue.arrayUnion([videoUrl])
+    });
+  }
   Future createUser(User user,String userName) async {
 
     if(userName == '')
         return Future.value();
-    return await userCollection.add({
+    return await userCollection.doc(user.email).set({
        'name': user.displayName,
        'userName': userName,
        'email': user.email,

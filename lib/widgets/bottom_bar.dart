@@ -89,6 +89,25 @@ class BottomBar extends StatelessWidget {
     );
   }
 
+  openGallery(BuildContext context) {
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => Gallery(user: FirebaseAuth.instance.currentUser),
+        ),
+      );
+    }else{
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => SignInScreen()
+        ),
+      );
+    }
+
+
+  }
+
   Widget profileMenuButton(String text, IconData icon, int index,BuildContext context) {
     return GestureDetector(
         onTap: () {
@@ -191,12 +210,5 @@ class BottomBar extends StatelessWidget {
         ));
   }
 
-  openGallery(BuildContext context) {
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => Gallery(),
-      ),
-    );
-  }
 }

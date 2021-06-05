@@ -1,26 +1,36 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tiktok_flutter/models/User.dart' as MyUser;
+import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 import 'feed_screen.dart';
 
 class Gallery extends StatefulWidget {
-  Gallery({Key key}) : super(key: key);
+  User user;
+
+  Gallery({Key key, this.user}) : super(key: key);
 
   @override
-  _GalleryScreenState createState() => _GalleryScreenState();
+  _GalleryScreenState createState() => _GalleryScreenState(this.user);
 }
 
 class _GalleryScreenState extends State<Gallery> {
+  User user;
   File _cameraImage;
   File _galleryVideo;
   final _firebaseStorage = FirebaseStorage.instance;
+
+  _GalleryScreenState(User user){
+    this.user = user;
+  }
 
   static const IconData checkIcon = IconData(0xe156, fontFamily: 'MaterialIcons');
   static const IconData deleteIcon = IconData(0xe8b6, fontFamily: 'MaterialIcons');
@@ -125,13 +135,17 @@ class _GalleryScreenState extends State<Gallery> {
   }
 
   Future<void> uploadVideoToFirebaseAndGoBack(File galleryVideo) async {
-    Future<File> result = testCompressAndGetFile(galleryVideo,"");
-   // print(galleryVideo.lengthSync());
-    result.then((value) async => {
-  //  print(value.length);
+    Future<File> result = testCompressAndGetFile(galleryVideo);
+
+    StorageUploadTask snapshot;
+    result.then((value) async  {
       //TODO use user name in filename combination
-        await _firebaseStorage.ref().child('videos/' + getRandomString(7) + '.mp4')
-        .putFile(value).onComplete
+         snapshot = await _firebaseStorage.ref().child('videos/' + getRandomString(7) + '.mp4')
+        .putFile(value);
+         Future downloadUrl = (await snapshot.onComplete).ref.getDownloadURL();
+         downloadUrl.then((value) =>
+             DatabaseService().updateUserVideoLinks(user.email,value));
+
     });
 
     Navigator.of(context).pushReplacement(
@@ -141,17 +155,7 @@ class _GalleryScreenState extends State<Gallery> {
     );
   }
 
- Future<File> testCompressAndGetFile(File file, String targetPath) async {
-    // var result = await FlutterImageCompress.compressAndGetFile(
-    //   file.absolute.path, targetPath,
-    //   quality: 88,
-    //   rotate: 180,
-    // );
-    //
-    // print(file.lengthSync());
-    // print(result.lengthSync());
-    //
-    // return result;
+ Future<File> testCompressAndGetFile(File file) async {
 
     MediaInfo mediaInfo = await VideoCompress.compressVideo(
       file.path,
