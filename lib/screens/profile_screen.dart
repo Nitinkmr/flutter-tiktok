@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 import 'package:tiktok_flutter/services/database_service.dart';
+import 'package:tiktok_flutter/utils/authentication.dart';
 
 class ProfileScreen extends StatefulWidget {
   MyUser.User myUser;
@@ -54,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (snapshot.hasData) {
                 print(snapshot.data.docs[0].data());
                 myUser = MyUser.User.convertFromSnapshot(snapshot.data.docs[0].data());
+              //   Authentication.signOut(context: context);
                 return showProfile(myUser);
               }
             }

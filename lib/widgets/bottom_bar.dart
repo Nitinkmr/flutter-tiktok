@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/screens/feed_viewmodel.dart';
 import 'package:tiktok_flutter/screens/gallery.dart';
+import 'package:tiktok_flutter/screens/profile_screen.dart';
+import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 import 'package:tiktok_flutter/utils/tik_tok_icons_icons.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tiktok_flutter/widgets/google_sign_in_button.dart';
 
 class BottomBar extends StatelessWidget {
   static const double NavigationIconSize = 20.0;
@@ -74,7 +78,7 @@ class BottomBar extends StatelessWidget {
                 width: 15,
               ),
               menuButton('Messages', TikTokIcons.messages, 2),
-              menuButton('Profile', TikTokIcons.profile, 3)
+              profileMenuButton('Profile', TikTokIcons.profile, 3,context)
             ],
           ),
           SizedBox(
@@ -83,6 +87,64 @@ class BottomBar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget profileMenuButton(String text, IconData icon, int index,BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+
+          if (FirebaseAuth.instance.currentUser != null) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => ProfileScreen()
+              ),
+            );
+          }else{
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => SignInScreen()
+              ),
+            );
+          }
+
+        },
+        child: Container(
+          height: 45,
+          width: 80,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(icon,
+                  color: GetIt.instance<FeedViewModel>().actualScreen == 0
+                      ? GetIt.instance<FeedViewModel>().actualScreen == index
+                      ? Colors.white
+                      : Colors.white70
+                      : GetIt.instance<FeedViewModel>().actualScreen == index
+                      ? Colors.black
+                      : Colors.black54,
+                  size: NavigationIconSize),
+              SizedBox(
+                height: 7,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                    fontWeight:
+                    GetIt.instance<FeedViewModel>().actualScreen == index
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: GetIt.instance<FeedViewModel>().actualScreen == 0
+                        ? GetIt.instance<FeedViewModel>().actualScreen == index
+                        ? Colors.white
+                        : Colors.white70
+                        : GetIt.instance<FeedViewModel>().actualScreen == index
+                        ? Colors.black
+                        : Colors.black54,
+                    fontSize: 11.0),
+              )
+            ],
+          ),
+        ));
   }
 
   Widget menuButton(String text, IconData icon, int index) {

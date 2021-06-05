@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/screens/profile_screen.dart';
 import 'package:tiktok_flutter/screens/registration_screen.dart';
@@ -49,11 +50,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
                     if(userFuture.docs != null && userFuture.docs.length > 0  ){
                        myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+
                        Navigator.of(context).pushReplacement(
                          MaterialPageRoute(
-                             builder: (context) => ProfileScreen(myUser: myUser)
+                             builder: (context) => ProfileScreen()
                          ),
                        );
+
                     }else{
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
