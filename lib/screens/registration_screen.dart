@@ -100,7 +100,7 @@ class _RegisterState extends State<Register> {
     if (userNameFuture.docs != null && userNameFuture.docs.length > 0) {
       // userName exists
       setState(() {
-        userName = '';
+        //userName = '';
         userNameErrorMessage =
             'user name already exists. Please select a different user name';
       });

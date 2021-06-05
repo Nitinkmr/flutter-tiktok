@@ -54,8 +54,10 @@ class DatabaseService {
   }
 
   Future createUser(User user,String userName) async {
-    return await userCollection.add({
 
+    if(userName == '')
+        return Future.value();
+    return await userCollection.add({
        'name': user.displayName,
        'userName': userName,
        'email': user.email,
@@ -65,7 +67,8 @@ class DatabaseService {
        'numFollowers': 0,
        'followers':[],
        'numFollowing': 0,
-       'following': []
+       'following': [],
+        'likes' : 0
      });
   }
 

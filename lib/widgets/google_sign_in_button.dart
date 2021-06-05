@@ -49,13 +49,18 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
                     if(userFuture.docs != null && userFuture.docs.length > 0  ){
                        myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+                       Navigator.of(context).pushReplacement(
+                         MaterialPageRoute(
+                             builder: (context) => ProfileScreen(myUser: myUser)
+                         ),
+                       );
                     }else{
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                               builder: (context) => Register(user)
                           ),
                         );
-                  }
+                     }
 
                }else{
                   // TODO this could be google auth error

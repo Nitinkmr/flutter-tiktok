@@ -12,18 +12,18 @@ class User{
   final List followers;
   final int numFollowing;
   final List following;
+  final int likes;
 
-
-  User(this.name,this.userName, this.email, this.profilePic, this.pics, this.videos, this.numFollowers, this.followers, this.numFollowing, this.following
-    //required this.name
-  );
+  User(this.name,this.userName, this.email, this.profilePic, this.pics, this.videos, this.numFollowers, this.followers, this.numFollowing,
+  this.following, this.likes
+      );
 
   static convert(User user){
-    return User(user.name, null, user.email, null, [], [], 0, [], 0, []);
+    return User(user.name, null, user.email, null, [], [], 0, [], 0, [],0);
   }
 
   static User convertFromSnapshot(var snapshot){
-    return User(snapshot['name'], snapshot['name'], snapshot['name'], snapshot['name'], [], [], 0, [], 0 , []);
+    return User(snapshot['name'], snapshot['name'], snapshot['name'], snapshot['name'], [], [], 0, [], 0 , [],0);
   }
 
 }
