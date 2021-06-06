@@ -148,7 +148,7 @@ class DatabaseService {
   Future createVideoResource(User user, String videoUrl) async{
     MyUser.User myUser;
     await getUserData(user.email).then((value) => {
-      myUser = value.docs[0].data()
+      myUser = MyUser.User.convertFromSnapshot(value.docs[0].data())
     });
     return await videoCollection.doc().set({
       'user': myUser.userName,

@@ -22,14 +22,22 @@ class ActionsToolbar extends StatelessWidget {
   final String numLikes;
   final String numComments;
   final String userPic;
+  final String userName;
 
-  ActionsToolbar(this.numLikes, this.numComments, this.userPic);
+  ActionsToolbar(this.userName,this.numLikes, this.numComments, this.userPic);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.0,
+      //width: 100.0,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(
+          '@' + userName,
+          style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold),
+        ),
         _getFollowAction(pictureUrl: userPic),
         _getSocialAction(icon: TikTokIcons.heart, title: numLikes),
         _getSocialAction(icon: TikTokIcons.chat_bubble, title: numComments),

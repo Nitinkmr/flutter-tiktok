@@ -541,21 +541,21 @@ class _FeedScreenState extends State<FeedScreen> {
                   child: Text("Loadingd123"),
                 ),
               ),
-        // Column(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: <Widget>[
-        //     Row(
-        //       mainAxisSize: MainAxisSize.max,
-        //       crossAxisAlignment: CrossAxisAlignment.end,
-        //       children: <Widget>[
-        //         VideoDescription(video.user),
-        //         ActionsToolbar(video.likes, video.comments,
-        //             "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
-        //       ],
-        //     ),
-        //     SizedBox(height: 20)
-        //   ],
-        // ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                //VideoDescription(video.user),
+                ActionsToolbar(video.user,video.likes, video.comments,
+                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+              ],
+            ),
+            SizedBox(height: 20)
+          ],
+        ),
       ],
     );
   }

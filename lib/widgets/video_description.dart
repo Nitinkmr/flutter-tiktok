@@ -9,8 +9,7 @@ class VideoDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
+    return  Container(
             height: 120.0,
             padding: EdgeInsets.only(left: 20.0),
             child: Column(
@@ -18,13 +17,7 @@ class VideoDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    '@' + username,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ])));
+
+                ]));
   }
 }
