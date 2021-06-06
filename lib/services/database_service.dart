@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tiktok_flutter/models/User.dart' as MyUser;
+
 
 class DatabaseService {
 
@@ -13,6 +15,7 @@ class DatabaseService {
   // Collection reference
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
   final CollectionReference groupCollection = FirebaseFirestore.instance.collection('groups');
+  final CollectionReference videoCollection = FirebaseFirestore.instance.collection('videos');
 
   // update userdata
   // Future updateUserData(String fullName, String email, String password) async {
@@ -140,6 +143,20 @@ class DatabaseService {
 
   getUsers() async {
     return await userCollection.snapshots();
+  }
+
+  Future createVideoResource(User user, String videoUrl) async{
+    MyUser.User myUser;
+    await getUserData(user.email).then((value) => {
+      myUser = value.docs[0].data()
+    });
+    return await videoCollection.doc().set({
+      'user': myUser.userName,
+      'user_pic': myUser.profilePic,
+      'likes': 0,
+      'comments': 0,
+      'url': videoUrl
+    });
   }
 
   Future getUserWithUserName(String userName) async {

@@ -144,7 +144,11 @@ class _GalleryScreenState extends State<Gallery> {
         .putFile(value);
          Future downloadUrl = (await snapshot.onComplete).ref.getDownloadURL();
          downloadUrl.then((value) =>
-             DatabaseService().updateUserVideoLinks(user.email,value));
+             {
+               DatabaseService().updateUserVideoLinks(user.email, value),
+                DatabaseService().createVideoResource(user,value)
+             }
+         );
 
     });
 

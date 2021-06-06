@@ -14,14 +14,14 @@ class VideosAPI {
   }
 
   Future<List<Video>> getVideoList() async {
-    var data = await FirebaseFirestore.instance.collection("Videos").get();
+    var data = await FirebaseFirestore.instance.collection("videos").get();
 
     var videoList = <Video>[];
     var videos;
 
     if (data.docs.length == 0) {
       await addDemoData();
-      videos = (await FirebaseFirestore.instance.collection("Videos").get());
+      videos = (await FirebaseFirestore.instance.collection("videos").get());
     } else {
       videos = data;
     }

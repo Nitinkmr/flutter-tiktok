@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class VideoDescription extends StatelessWidget {
   final username;
-  final videtoTitle;
-  final songInfo;
+  //final videtoTitle;
+  //final songInfo;
 
-  VideoDescription(this.username, this.videtoTitle, this.songInfo);
+  VideoDescription(this.username);
 
   @override
   Widget build(BuildContext context) {
@@ -24,31 +24,6 @@ class VideoDescription extends StatelessWidget {
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    videtoTitle,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Row(children: [
-                    Icon(
-                      Icons.music_note,
-                      size: 15.0,
-                      color: Colors.white,
-                    ),
-                    Text(songInfo,
-                        style: TextStyle(color: Colors.white, fontSize: 14.0))
-                  ]),
-                  SizedBox(
-                    height: 10,
                   ),
                 ])));
   }
