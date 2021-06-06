@@ -37,6 +37,10 @@ class FeedViewModel extends BaseViewModel {
   }
 
   void loadVideo(int index) async {
+
+    if(index >= videoSource.listVideos.length){
+      await videoSource.getVideoList();
+    }
     if(index < videoSource.listVideos.length){
       await videoSource.listVideos[index].loadController();
       //videoSource.listVideos[index].controller.play();
