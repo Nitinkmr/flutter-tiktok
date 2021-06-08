@@ -5,6 +5,7 @@ import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:tiktok_flutter/utils/authentication.dart';
+import 'package:tiktok_flutter/widgets/bottom_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
   MyUser.User myUser;
@@ -29,9 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child:
-      displayProfile()
+    return Scaffold(
+      body: displayProfile(),
     );
   }
   displayProfile() {
@@ -84,15 +84,18 @@ showProfile(MyUser.User myUser) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.person_add_alt_1_outlined),
+                //TODO version 2
+                //Icon(Icons.person_add_alt_1_outlined),
                 Text(
                   myUser.name,
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
-                Icon(Icons.more_horiz)
+                //TODO version 2
+                //Icon(Icons.more_horiz)
               ],
             ),
           ),
+
           SingleChildScrollView(
             child: Column(
               children: [
@@ -129,8 +132,13 @@ showProfile(MyUser.User myUser) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    /*
+
+                      TODO VERSION 2
+
                     Column(
                       children: [
+
                         Text(
                           myUser.numFollowing.toString(),
                           style: TextStyle(
@@ -192,11 +200,17 @@ showProfile(MyUser.User myUser) {
                         ),
                       ],
                     ),
+
+                     */
                   ],
                 ),
                 SizedBox(
                   height: 15,
                 ),
+
+
+                /*
+                TODO VERSION 2
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -224,7 +238,7 @@ showProfile(MyUser.User myUser) {
                       child: Center(child: Icon(Icons.bookmark)),
                     )
                   ],
-                ),
+                ),*/
                 SizedBox(
                   height: 25,
                 ),
@@ -252,10 +266,11 @@ showProfile(MyUser.User myUser) {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(
-                            Icons.favorite_border,
-                            color: Colors.black26,
-                          ),
+                          //TODO version 2
+                          // Icon(
+                          //   Icons.favorite_border,
+                          //   color: Colors.black26,
+                          // ),
                           SizedBox(
                             height: 7,
                           ),
@@ -269,10 +284,11 @@ showProfile(MyUser.User myUser) {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(
-                            Icons.lock_outline,
-                            color: Colors.black26,
-                          ),
+                          //TODO version 2
+                          // Icon(
+                          //   Icons.lock_outline,
+                          //   color: Colors.black26,
+                          // ),
                           SizedBox(
                             height: 7,
                           ),
@@ -438,9 +454,21 @@ showProfile(MyUser.User myUser) {
                     ),
                   ],
                 ),
+
               ],
             ),
           ),
+          SizedBox(
+            height: 100,
+          ),
+         Container(
+           color: Colors.black,
+           //alignment: FractionalOffset.bottomCenter,
+           child: BottomBar(),
+         ),
+
+
+
         ],
       ),
     ),

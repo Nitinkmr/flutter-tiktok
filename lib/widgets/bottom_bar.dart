@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_flutter/screens/feed_screen.dart';
 import 'package:tiktok_flutter/screens/feed_viewmodel.dart';
 import 'package:tiktok_flutter/screens/gallery.dart';
 import 'package:tiktok_flutter/screens/profile_screen.dart';
@@ -68,8 +69,10 @@ class BottomBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              menuButton('Home', TikTokIcons.home, 0),
-              menuButton('Search', TikTokIcons.search, 1),
+
+             HomeMenuButton('Home', TikTokIcons.home, 0,context),
+             // TODO version 2
+              // menuButton('Search', TikTokIcons.search, 1),
               SizedBox(
                 width: 15,
               ),
@@ -77,7 +80,8 @@ class BottomBar extends StatelessWidget {
               SizedBox(
                 width: 15,
               ),
-              menuButton('Messages', TikTokIcons.messages, 2),
+              // TODO version 2
+              // menuButton('Messages', TikTokIcons.messages, 2),
               profileMenuButton('Profile', TikTokIcons.profile, 3,context)
             ],
           ),
@@ -89,6 +93,19 @@ class BottomBar extends StatelessWidget {
     );
   }
 
+  HomeMenuButton(String text, IconData icon, int index, BuildContext context) {
+    return InkWell(
+      child: menuButton(text, icon, index),
+        onTap: (){
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => FeedScreen(),
+            ),
+          );
+        }
+    );
+
+  }
   openGallery(BuildContext context) {
 
     if (FirebaseAuth.instance.currentUser != null) {
@@ -104,7 +121,6 @@ class BottomBar extends StatelessWidget {
         ),
       );
     }
-
 
   }
 
@@ -209,6 +225,8 @@ class BottomBar extends StatelessWidget {
           ),
         ));
   }
+
+
 
 
 }

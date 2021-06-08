@@ -470,11 +470,12 @@ class _FeedScreenState extends State<FeedScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Following',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white70)),
+                  // TODO version 2
+                  // Text('Following',
+                  //     style: TextStyle(
+                  //         fontSize: 17.0,
+                  //         fontWeight: FontWeight.normal,
+                  //         color: Colors.white70)),
                   SizedBox(
                     width: 7,
                   ),
@@ -486,11 +487,12 @@ class _FeedScreenState extends State<FeedScreen> {
                   SizedBox(
                     width: 7,
                   ),
-                  Text('For You',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white))
+                  // TODO version 2
+                  // Text('For You',
+                  //     style: TextStyle(
+                  //         fontSize: 17.0,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.white))
                 ]),
           ),
         ),
