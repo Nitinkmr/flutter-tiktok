@@ -19,7 +19,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   String userName;
-  String userNameErrorMessage;
+  String userNameErrorMessage = 'Enter desired user name';
   final _formKey = GlobalKey<FormState>();
   String registerMessage = '';
   User user;
@@ -83,7 +83,7 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 10.0),
                     SizedBox(height: 10.0),
-                    Text(registerMessage,
+                    Text(userNameErrorMessage,
                         style: TextStyle(color: Colors.red, fontSize: 14.0)),
                   ],
                 ),
@@ -107,18 +107,24 @@ class _RegisterState extends State<Register> {
     } else {
       //TODO ask user for username
       await DatabaseService().createUser(user,this.userName);
-      var userFuture = await DatabaseService().getUserData(user.email);
-      if (userFuture.docs != null && userFuture.docs.length > 0) {
-        MyUser.User myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
-
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
+      MyUser.User myUser = MyUser.User.convert(user, this.userName);
+      Navigator.of(context).push(
+        MaterialPageRoute(
             builder: (context) => ProfileScreen(myUser: myUser)
-          ),
-        );
-      } else {
-        //TODO error
-      }
+        ),
+      );
+      // var userFuture = await DatabaseService().getUserData(user.email);
+      // if (userFuture.docs != null && userFuture.docs.length > 0) {
+      //   MyUser.User myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+      //
+      //   Navigator.of(context).push(
+      //     MaterialPageRoute(
+      //       builder: (context) => ProfileScreen(myUser: myUser)
+      //     ),
+      //   );
+      // } else {
+      //   //TODO error
+      // }
     }
   }
 }

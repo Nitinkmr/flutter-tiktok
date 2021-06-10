@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as GoogleUser;
 
 class User{
   final String name;
@@ -18,8 +18,8 @@ class User{
   this.following, this.likes
       );
 
-  static convert(User user){
-    return User(user.name, null, user.email, null, [], [], 0, [], 0, [],0);
+  static convert(GoogleUser.User user,String userName){
+    return User(user.displayName, userName, user.email, user.photoURL, [], [], 0, [], 0, [],0);
   }
 
   static User convertFromSnapshot(var snapshot){

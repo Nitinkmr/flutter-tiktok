@@ -51,14 +51,14 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                     if(userFuture.docs != null && userFuture.docs.length > 0  ){
                        myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
 
-                       Navigator.of(context).pushReplacement(
+                       Navigator.of(context).push(
                          MaterialPageRoute(
                              builder: (context) => ProfileScreen()
                          ),
                        );
 
                     }else{
-                        Navigator.of(context).pushReplacement(
+                        Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) => Register(user)
                           ),

@@ -152,7 +152,7 @@ class _GalleryScreenState extends State<Gallery> {
 
     });
 
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => FeedScreen(),
       ),

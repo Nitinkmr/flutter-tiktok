@@ -97,7 +97,7 @@ class BottomBar extends StatelessWidget {
     return InkWell(
       child: menuButton(text, icon, index),
         onTap: (){
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => FeedScreen(),
             ),
@@ -109,13 +109,13 @@ class BottomBar extends StatelessWidget {
   openGallery(BuildContext context) {
 
     if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => Gallery(user: FirebaseAuth.instance.currentUser),
         ),
       );
     }else{
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(
             builder: (context) => SignInScreen()
         ),
@@ -129,13 +129,13 @@ class BottomBar extends StatelessWidget {
         onTap: () {
 
           if (FirebaseAuth.instance.currentUser != null) {
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => ProfileScreen()
               ),
             );
           }else{
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => SignInScreen()
               ),

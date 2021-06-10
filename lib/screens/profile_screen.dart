@@ -30,9 +30,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: displayProfile(),
-    );
+    return WillPopScope(
+        child: Scaffold(
+          body: displayProfile(),
+        ), onWillPop:() async {
+          return true;
+    });
+
   }
   displayProfile() {
     return SafeArea(
@@ -62,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return   CircularProgressIndicator();
           });
     }else
-      return Navigator.of(context).pushReplacement(
+      return Navigator.of(context).push(
         MaterialPageRoute(
             builder: (context) => SignInScreen()
         ),
