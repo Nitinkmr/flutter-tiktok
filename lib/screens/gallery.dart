@@ -56,85 +56,96 @@ class _GalleryScreenState extends State<Gallery> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          child: Column(children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-                child: Container(
-              color: Colors.white,
-              height: 100,
-            ))
-          ],
-        ),
+    return WillPopScope(
+        child:  Scaffold(
+          body: Container(
+              child: Column(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          height: 100,
+                        ))
+                  ],
+                ),
 
-            Expanded(
-              child: Container(
-                  child: AspectRatio(
-                aspectRatio: _galleryVideoPlayerController.value.aspectRatio,
-                child: VideoPlayer(_galleryVideoPlayerController),
-              )),
-            ),
+                Expanded(
+                  child: Container(
+                      child: AspectRatio(
+                        aspectRatio: _galleryVideoPlayerController!=null? _galleryVideoPlayerController.value.aspectRatio: 0.5,
+                        child: _galleryVideoPlayerController != null ? VideoPlayer(_galleryVideoPlayerController): Container(),
+                      )),
+                ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: (
-                InkWell(
-                    onTap:(){ _pickVideoFromGallery() ;},
-                    child: Container(
-                      color: Colors.white,
-                      height: 100,
-                      child: Column(
-                        children: <Widget>[
-                          Icon(deleteIcon,color: Colors.black,size: 50)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                        child: (
+                            InkWell(
+                                onTap:(){ _pickVideoFromGallery() ;},
+                                child: Container(
+                                  color: Colors.white,
+                                  height: 100,
+                                  child: _galleryVideoPlayerController != null ? Column(
+                                    children: <Widget>[
+                                      Icon(deleteIcon,color: Colors.black,size: 50)
 
-                        ],
-                      ),
-                    ))
-              )
-            ),
-            Expanded(
-              child:
-                InkWell(
-                    onTap:(){ uploadVideoToFirebaseAndGoBack(_galleryVideo) ;},
-                    child: Container(
-                      color: Colors.white,
-                      height: 100,
-                      child: Column(
-                        children: <Widget>[
-                          Icon(checkIcon,color: Colors.black,size: 50)
-                        ],
-                      ),
-                    ))
-              ,
-            )
+                                    ],
+                                  ) : Container(),
+                                ))
+                        )
+                    ),
+                    Expanded(
+                      child:
+                      InkWell(
+                          onTap:(){ uploadVideoToFirebaseAndGoBack(_galleryVideo) ;},
+                          child: Container(
+                            color: Colors.white,
+                            height: 100,
+                            child:_galleryVideoPlayerController != null ? Column(
+                              children: <Widget>[
+                                Icon(checkIcon,color: Colors.black,size: 50)
+                              ],
+                            ): Container(),
+                          ))
+                      ,
+                    )
 
-          ],
-        ),
-      ])),
-    );
+                  ],
+                ),
+              ])),
+        ), onWillPop : () async{
+          return true;
+    });
+
+
   }
 
   void _pickVideoFromGallery() async {
+    if( _galleryVideoPlayerController != null && _galleryVideoPlayerController.value.isPlaying)
+        _galleryVideoPlayerController.pause();
     PickedFile pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
-    _galleryVideo = File(pickedFile.path);
-    _galleryVideoPlayerController = VideoPlayerController.file(_galleryVideo)
-      ..initialize().then((_) {
-        setState(() {});
-        _galleryVideoPlayerController.play();
-      });
-
-
+    if(pickedFile != null){
+      _galleryVideo = File(pickedFile.path);
+      _galleryVideoPlayerController = VideoPlayerController.file(_galleryVideo)
+        ..initialize().then((_) {
+          setState(() {});
+          _galleryVideoPlayerController.play();
+        });
+    }else{
+      Navigator.pop(context);
+    }
   }
 
   Future<void> uploadVideoToFirebaseAndGoBack(File galleryVideo) async {
+    if( _galleryVideoPlayerController != null && _galleryVideoPlayerController.value.isPlaying)
+      _galleryVideoPlayerController.pause();
     Future<File> result = testCompressAndGetFile(galleryVideo);
 
     StorageUploadTask snapshot;
