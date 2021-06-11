@@ -6,6 +6,8 @@ import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:tiktok_flutter/shared/constants.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
 
+import 'feed_screen.dart';
+
 class Register extends StatefulWidget {
   User user;
 
@@ -110,7 +112,7 @@ class _RegisterState extends State<Register> {
       MyUser.User myUser = MyUser.User.convert(user, this.userName);
       Navigator.of(context).push(
         MaterialPageRoute(
-            builder: (context) => ProfileScreen(myUser: myUser)
+            builder: (context) => FeedScreen()
         ),
       );
       // var userFuture = await DatabaseService().getUserData(user.email);

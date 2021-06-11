@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
+import 'package:tiktok_flutter/screens/registration_screen.dart';
 import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:tiktok_flutter/utils/authentication.dart';
@@ -43,7 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Container(
             color: Colors.white,
             child: Column(children: [
-              myUser != null ? showProfile(myUser) : setUserAndShowProfile()
+              myUser != null ? showProfile(myUser) : setUserAndShowProfile(),
+              BottomBar()
             ])));
   }
 
@@ -56,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (snapshot.hasError) {
               return Text('Error initializing Firebase');
             } else if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData) {
+              if (snapshot.hasData && snapshot.data.docs.length > 0) {
                 print(snapshot.data.docs[0].data());
                 myUser = MyUser.User.convertFromSnapshot(snapshot.data.docs[0].data());
               //   Authentication.signOut(context: context);
@@ -465,11 +467,12 @@ showProfile(MyUser.User myUser) {
           SizedBox(
             height: 100,
           ),
-         Container(
-           color: Colors.black,
-           //alignment: FractionalOffset.bottomCenter,
-           child: BottomBar(),
-         ),
+         // Container(
+         //   color: Colors.black,
+         //   //alignment: FractionalOffset.bottomCenter,
+         //   padding: const EdgeInsets.only(bottom: 16.0),
+         //   child: BottomBar(),
+         // ),
 
 
 

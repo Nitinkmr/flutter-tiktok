@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
+import 'package:tiktok_flutter/screens/feed_screen.dart';
 import 'package:tiktok_flutter/screens/profile_screen.dart';
 import 'package:tiktok_flutter/screens/registration_screen.dart';
 import 'package:tiktok_flutter/services/database_service.dart';
@@ -45,25 +46,17 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                    MyUser.User myUser = null;
                     var userFuture = await DatabaseService().getUserData(user.email);
 
-                    if(userFuture.docs != null && userFuture.docs.length > 0  ){
-                       myUser = MyUser.User.convertFromSnapshot(userFuture.docs[0].data());
+                    if(userFuture.docs == null || userFuture.docs.length == 0  ){
+                      await DatabaseService().createUser(user,user.email.split("@")[0]);
+                    }
 
-                       Navigator.of(context).push(
-                         MaterialPageRoute(
-                             builder: (context) => ProfileScreen()
-                         ),
-                       );
-
-                    }else{
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => Register(user)
-                          ),
-                        );
-                     }
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                      ),
+                    );
 
                }else{
                   // TODO this could be google auth error
