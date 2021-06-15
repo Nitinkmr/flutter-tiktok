@@ -308,158 +308,36 @@ showProfile(MyUser.User myUser) {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
+
+                GridView.count(
+                  shrinkWrap: true,
+                    crossAxisCount: 3,
+                    children: List.generate(myUser.videos.length, (index) {
+                     return Container(
+                          height: 160,
+                          decoration: BoxDecoration(
+                              color: Colors.black26,
+                              border:
+                              Border.all(color: Colors.white70, width: .5)),
+                          child: FittedBox(
+                            child: CachedNetworkImage(
+                              fit: BoxFit.fill,
+                              imageUrl:
+                              //"https://media.giphy.com/media/Ii4Cv63yG9iYawDtKC/giphy.gif",
+                              myUser.videos[index],
+                              placeholder: (context, url) =>
+                                  Padding(
+                                    padding: const EdgeInsets.all(35.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
                             fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/Ii4Cv63yG9iYawDtKC/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
                           ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/tqfS3mgQU28ko/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/3o72EX5QZ9N9d51dqo/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/4oMoIbIQrvCjm/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/aZmD30dCFaPXG/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            border:
-                            Border.all(color: Colors.white70, width: .5)),
-                        child: FittedBox(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl:
-                            "https://media.giphy.com/media/NU8tcjnPaODTy/giphy.gif",
-                            placeholder: (context, url) =>
-                                Padding(
-                                  padding: const EdgeInsets.all(35.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                        );
+
+                    }),)
 
               ],
             ),

@@ -23,7 +23,7 @@ class User{
   }
 
   static User convertFromSnapshot(var snapshot){
-    return User(snapshot['name'], snapshot['userName'], snapshot['email'], snapshot['profilePic'], [], [], 0, [], 0 , [],0);
+    return User(snapshot['name'], snapshot['userName'], snapshot['email'], snapshot['profilePic'], [], snapshot['videos'], 0, [], 0 , [],0);
   }
 
 }
