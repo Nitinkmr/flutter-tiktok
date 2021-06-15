@@ -43,6 +43,7 @@ dependencies:
   video_compress:
   firebase_auth:
   google_sign_in:
+  thumbnails: ^1.0.1
 
 dev_dependencies:
 flutter_test:

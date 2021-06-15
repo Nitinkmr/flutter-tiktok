@@ -324,7 +324,7 @@ showProfile(MyUser.User myUser) {
                               fit: BoxFit.fill,
                               imageUrl:
                               //"https://media.giphy.com/media/Ii4Cv63yG9iYawDtKC/giphy.gif",
-                              myUser.videos[index],
+                              myUser.videos[index]["thumbnail"],
                               placeholder: (context, url) =>
                                   Padding(
                                     padding: const EdgeInsets.all(35.0),

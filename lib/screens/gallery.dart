@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thumbnails/thumbnails.dart';
 import 'package:tiktok_flutter/models/User.dart' as MyUser;
 import 'package:tiktok_flutter/services/database_service.dart';
 import 'package:video_compress/video_compress.dart';
@@ -147,17 +148,25 @@ class _GalleryScreenState extends State<Gallery> {
     if( _galleryVideoPlayerController != null && _galleryVideoPlayerController.value.isPlaying)
       _galleryVideoPlayerController.pause();
     Future<File> result = testCompressAndGetFile(galleryVideo);
+    String thumbnail = await Thumbnails.getThumbnail(
+        //thumbnailFolder:'[FOLDER PATH TO STORE THUMBNAILS]', // creates the specified path if it doesnt exist
+        videoFile: galleryVideo.path,
+        imageType: ThumbFormat.PNG,
+        quality: 30);
 
-    StorageUploadTask snapshot;
-    result.then((value) async  {
+    result.then((videoFile) async  {
       //TODO use user name in filename combination
-         snapshot = await _firebaseStorage.ref().child('videos/' + getRandomString(7) + '.mp4')
-        .putFile(value);
-         Future downloadUrl = (await snapshot.onComplete).ref.getDownloadURL();
-         downloadUrl.then((value) =>
+      String name = getRandomString(7);
+        StorageUploadTask videoUploadTask = await _firebaseStorage.ref().child('videos/' +  name + '.mp4')
+        .putFile(videoFile);
+         Future videoDownloadUrlFuture = (await videoUploadTask.onComplete).ref.getDownloadURL();
+
+        StorageUploadTask thumbnailUploadTask = await _firebaseStorage.ref().child('thumbnails/' + name + '.png')
+             .putFile(File.fromUri(Uri.file(thumbnail)));
+
+         videoDownloadUrlFuture.then((videoDownloadUrl) =>
              {
-               DatabaseService().updateUserVideoLinks(user.email, value),
-                DatabaseService().createVideoResource(user,value)
+               uploadVideoAndThumbnail(user,videoDownloadUrl,thumbnailUploadTask)
              }
          );
 
@@ -178,5 +187,14 @@ class _GalleryScreenState extends State<Gallery> {
       deleteOrigin: false, // It's false by default
     );
     return mediaInfo.file;
+  }
+
+  uploadVideoAndThumbnail(User user, videoDownloadUrl, StorageUploadTask thumbnailUploadTask) async {
+
+    Future thumbnailUrlFuture = (await thumbnailUploadTask.onComplete).ref.getDownloadURL();
+    thumbnailUrlFuture.then((thumbnailUrl) => {
+      DatabaseService().updateUserVideoLinks(user.email, videoDownloadUrl,thumbnailUrl),
+      DatabaseService().createVideoResource(user,videoDownloadUrl)
+    });
   }
 }

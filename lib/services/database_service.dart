@@ -54,10 +54,14 @@ class DatabaseService {
     });
   }
 
-  Future updateUserVideoLinks(String emailId,String videoUrl) async {
+  Future updateUserVideoLinks(String emailId,String videoUrl,String thumbnailUrl) async {
     DocumentReference userDocRef = userCollection.doc(emailId);
     return await userDocRef.update({
-        'videos' : FieldValue.arrayUnion([videoUrl])
+        'videos' : FieldValue.arrayUnion([{
+          "url":videoUrl,
+          "thumbnail": thumbnailUrl
+        }]),
+
     });
   }
   Future createUser(User user,String userName) async {
