@@ -54,15 +54,18 @@ class DatabaseService {
     });
   }
 
-  Future updateUserVideoLinks(String emailId,String videoUrl,String thumbnailUrl) async {
+  Future updateUserVideos(String emailId,String videoId) async {
     DocumentReference userDocRef = userCollection.doc(emailId);
     return await userDocRef.update({
-        'videos' : FieldValue.arrayUnion([{
-          "url":videoUrl,
-          "thumbnail": thumbnailUrl
-        }]),
-
+        'videos' : FieldValue.arrayUnion([videoId]),
     });
+  }
+
+  Future getUserVideos(String userName) async{
+    QuerySnapshot snapshot = await videoCollection.where('user', isEqualTo: userName).get();
+
+    //print(snapshot.docs[0].data()['name']);
+    return snapshot;
   }
   Future createUser(User user,String userName) async {
 
@@ -84,64 +87,25 @@ class DatabaseService {
   }
 
 
-  // toggling the user group join
-  // Future togglingGroupJoin(String groupId, String groupName, String userName) async {
-  //
-  //   DocumentReference userDocRef = userCollection.document(uid);
-  //   DocumentSnapshot userDocSnapshot = await userDocRef.get();
-  //
-  //   DocumentReference groupDocRef = groupCollection.document(groupId);
-  //
-  //   List<dynamic> groups = await userDocSnapshot.data['groups'];
-  //
-  //   if(groups.contains(groupId + '_' + groupName)) {
-  //     //print('hey');
-  //     await userDocRef.updateData({
-  //       'groups': FieldValue.arrayRemove([groupId + '_' + groupName])
-  //     });
-  //
-  //     await groupDocRef.updateData({
-  //       'members': FieldValue.arrayRemove([uid + '_' + userName])
-  //     });
-  //   }
-  //   else {
-  //     //print('nay');
-  //     await userDocRef.updateData({
-  //       'groups': FieldValue.arrayUnion([groupId + '_' + groupName])
-  //     });
-  //
-  //     await groupDocRef.updateData({
-  //       'members': FieldValue.arrayUnion([uid + '_' + userName])
-  //     });
-  //   }
-  // }
-
-
-  // has user joined the group
- /* Future<bool> isUserJoined(String groupId, String groupName, String userName) async {
-
-    DocumentReference userDocRef = userCollection.doc(uid);
-    DocumentSnapshot userDocSnapshot = await userDocRef.get();
-
-    List<dynamic> groups = await userDocSnapshot.get('groups');
-
-    
-    if(groups.contains(groupId + '_' + groupName)) {
-      //print('he');
-      return true;
-    }
-    else {
-      //print('ne');
-      return false;
-    }
-  }
-*/
-
   // get user data
   Future getUserData(String email) async {
     QuerySnapshot snapshot = await userCollection.where('email', isEqualTo: email).get();
-
-    //print(snapshot.docs[0].data()['name']);
+    // if(snapshot.docs.length > 0){
+    //   String userName =  snapshot.docs[0].data()['userName'];
+    //   QuerySnapshot videosSnapshot = await getUserVideos(userName);
+    //
+    //   if(videosSnapshot != null){
+    //     List videos = [];
+    //     videosSnapshot.docs.forEach((video) {
+    //       videos.add(video.data());
+    //     });
+    //     print(videos);
+    //     snapshot.docs[0].data()["test"] = videos;
+    //   }
+    //
+    // }
+    //print("DB DB DB DB ");
+    //print(snapshot.docs[0].data());
     return snapshot;
   }
 
@@ -149,18 +113,22 @@ class DatabaseService {
     return await userCollection.snapshots();
   }
 
-  Future createVideoResource(User user, String videoUrl) async{
+  Future createVideoResource(User user, String videoUrl,String thumbnailUrl) async{
     MyUser.User myUser;
     await getUserData(user.email).then((value) => {
       myUser = MyUser.User.convertFromSnapshot(value.docs[0].data())
     });
-    return await videoCollection.doc().set({
+
+    String id = myUser.userName + DateTime.now().millisecondsSinceEpoch.toString();
+     await videoCollection.doc(id).set({
       'user': myUser.userName,
       'user_pic': myUser.profilePic,
       'likes': 0,
       'comments': 0,
-      'url': videoUrl
+      'url': videoUrl,
+       'thumbnailUrl' : thumbnailUrl
     });
+     return id;
   }
 
   Future getUserWithUserName(String userName) async {

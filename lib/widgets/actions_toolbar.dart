@@ -22,9 +22,13 @@ class ActionsToolbar extends StatelessWidget {
   final String numLikes;
   final String numComments;
   final String userPic;
-  final String userName;
+   String userName;
 
-  ActionsToolbar(this.userName,this.numLikes, this.numComments, this.userPic);
+  ActionsToolbar(String userName,this.numLikes, this.numComments, this.userPic){
+      if(userName.length > 7)
+        userName =  userName.substring(0,7) + "...";
+      this.userName = userName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +44,13 @@ class ActionsToolbar extends StatelessWidget {
         ),
         _getFollowAction(pictureUrl: userPic),
         _getSocialAction(icon: TikTokIcons.heart, title: numLikes),
-        _getSocialAction(icon: TikTokIcons.chat_bubble, title: numComments),
+        /*
+        * TODO version 2
+        *  _getSocialAction(icon: TikTokIcons.chat_bubble, title: numComments),
         _getSocialAction(
             icon: TikTokIcons.reply, title: 'Share', isShare: true),
+        * */
+
         CircleImageAnimation(
           child: _getMusicPlayerAction(userPic),
         )

@@ -192,9 +192,11 @@ class _GalleryScreenState extends State<Gallery> {
   uploadVideoAndThumbnail(User user, videoDownloadUrl, StorageUploadTask thumbnailUploadTask) async {
 
     Future thumbnailUrlFuture = (await thumbnailUploadTask.onComplete).ref.getDownloadURL();
-    thumbnailUrlFuture.then((thumbnailUrl) => {
-      DatabaseService().updateUserVideoLinks(user.email, videoDownloadUrl,thumbnailUrl),
-      DatabaseService().createVideoResource(user,videoDownloadUrl)
+    thumbnailUrlFuture.then((thumbnailUrl)  {
+      Future videoIdFuture = DatabaseService().createVideoResource(user,videoDownloadUrl,thumbnailUrl);
+      videoIdFuture.then((videoId) {
+        DatabaseService().updateUserVideos(user.email, videoId);
+      });
     });
   }
 }

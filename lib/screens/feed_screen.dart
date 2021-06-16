@@ -540,7 +540,7 @@ class _FeedScreenState extends State<FeedScreen> {
             : Container(
                 color: Colors.black,
                 child: Center(
-                  child: Text("Loadingd123"),
+                  child: Text("Loadingd..."),
                 ),
               ),
         Column(
@@ -552,7 +552,7 @@ class _FeedScreenState extends State<FeedScreen> {
               children: <Widget>[
                 //VideoDescription(video.user),
                 ActionsToolbar(video.user,video.likes, video.comments,
-                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+                    video.userPic),
               ],
             ),
             SizedBox(height: 20)
