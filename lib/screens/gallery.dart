@@ -152,6 +152,7 @@ class _GalleryScreenState extends State<Gallery> {
         //thumbnailFolder:'[FOLDER PATH TO STORE THUMBNAILS]', // creates the specified path if it doesnt exist
         videoFile: galleryVideo.path,
         imageType: ThumbFormat.PNG,
+
         quality: 30);
 
     result.then((videoFile) async  {

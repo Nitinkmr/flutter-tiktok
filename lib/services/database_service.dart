@@ -126,7 +126,8 @@ class DatabaseService {
       'likes': 0,
       'comments': 0,
       'url': videoUrl,
-       'thumbnailUrl' : thumbnailUrl
+       'thumbnailUrl' : thumbnailUrl,
+       'views' : 0
     });
      return id;
   }

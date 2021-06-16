@@ -32,11 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return WillPopScope(
         child: Scaffold(
           body: displayProfile(),
-        ), onWillPop:() async {
+        ),
+        onWillPop: () async {
           return true;
-    });
-
+        });
   }
+
   displayProfile() {
     return SafeArea(
         child: Container(
@@ -59,33 +60,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData && snapshot.data.docs.length > 0) {
                 print(snapshot.data.docs[0].data());
-                myUser = MyUser.User.convertFromSnapshot(snapshot.data.docs[0].data());
-              //   Authentication.signOut(context: context);
+                myUser = MyUser.User.convertFromSnapshot(
+                    snapshot.data.docs[0].data());
+                //   Authentication.signOut(context: context);
                 return showProfile(myUser);
               }
             }
-            return   CircularProgressIndicator();
+            return CircularProgressIndicator();
           });
-    }else
+    } else
       return Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => SignInScreen()
-        ),
+        MaterialPageRoute(builder: (context) => SignInScreen()),
       );
   }
 
-
-
-showProfile(MyUser.User myUser) {
-
+  showProfile(MyUser.User myUser) {
     return FutureBuilder(
         future: DatabaseService().getUserVideos(myUser.userName),
-        builder:(context, snapshot) {
-            if (snapshot.hasError) {
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
             return Text('Error initializing Firebase');
-            } else if (snapshot.connectionState == ConnectionState.done) {
+          } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData && snapshot.data.docs.length > 0) {
-              List videos = snapshot.data.docs;//[0].data();
+              List videos = snapshot.data.docs; //[0].data();
               return SafeArea(
                 child: Container(
                   color: Colors.white,
@@ -93,8 +90,10 @@ showProfile(MyUser.User myUser) {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(color: Colors.black12))),
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                            border: Border(
+                                bottom: BorderSide(color: Colors.black12))),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -102,7 +101,8 @@ showProfile(MyUser.User myUser) {
                             //Icon(Icons.person_add_alt_1_outlined),
                             Text(
                               myUser.name,
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                             //TODO version 2
                             //Icon(Icons.more_horiz)
@@ -138,7 +138,8 @@ showProfile(MyUser.User myUser) {
                             ),
                             Text(
                               myUser.userName,
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
                               height: 20,
@@ -222,7 +223,6 @@ showProfile(MyUser.User myUser) {
                               height: 15,
                             ),
 
-
                             /*
                 TODO VERSION 2
                 Row(
@@ -261,7 +261,8 @@ showProfile(MyUser.User myUser) {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black12)),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -316,37 +317,66 @@ showProfile(MyUser.User myUser) {
                                 ],
                               ),
                             ),
-
                             GridView.count(
                               shrinkWrap: true,
                               crossAxisCount: 3,
                               children: List.generate(videos.length, (index) {
-                                return Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black26,
-                                      border:
-                                      Border.all(color: Colors.white70, width: .5)),
-                                  child: FittedBox(
-                                    child: CachedNetworkImage(
+                                return Stack(children: <Widget>[
+                                  Container(
+                                    height: 160,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black26,
+                                        border: Border.all(
+                                            color: Colors.white70, width: .5)),
+                                    child: FittedBox(
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        imageUrl:
+                                            //"https://media.giphy.com/media/Ii4Cv63yG9iYawDtKC/giphy.gif",
+                                            videos[index]
+                                                .data()["thumbnailUrl"],
+                                        placeholder: (context, url) => Padding(
+                                          padding: const EdgeInsets.all(35.0),
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
                                       fit: BoxFit.fill,
-                                      imageUrl:
-                                      //"https://media.giphy.com/media/Ii4Cv63yG9iYawDtKC/giphy.gif",
-                                      videos[index].data()["thumbnailUrl"],
-                                      placeholder: (context, url) =>
-                                          Padding(
-                                            padding: const EdgeInsets.all(35.0),
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
                                     ),
-                                    fit: BoxFit.fill,
                                   ),
-                                );
+                                  Container(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          alignment: Alignment.bottomLeft,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 0),
+                                          child: Icon(
+                                            IconData(0xedb4,
+                                                fontFamily: 'MaterialIcons'),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.bottomLeft,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 25),
+                                          child: Text(
+                                            videos[index]
+                                                .data()["views"].toString(),
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        )
 
-                              }),)
-
+                                      ],
+                                    ),
+                                  )
+                                ]);
+                              }),
+                            )
                           ],
                         ),
                       ),
@@ -359,18 +389,13 @@ showProfile(MyUser.User myUser) {
                       //   padding: const EdgeInsets.only(bottom: 16.0),
                       //   child: BottomBar(),
                       // ),
-
-
-
                     ],
                   ),
                 ),
               );
             }
-            }
-            return Container();
+          }
+          return Container();
         });
-
-}
-
+  }
 }
