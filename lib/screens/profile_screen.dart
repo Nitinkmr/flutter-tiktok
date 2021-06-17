@@ -41,11 +41,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   displayProfile() {
     return SafeArea(
         child: Container(
-            color: Colors.white,
+            color: Colors.black,
             child: Column(children: [
               //myUser != null ? showProfile(myUser) :
-              setUserAndShowProfile(),
-              BottomBar()
+              Expanded(child: setUserAndShowProfile()),
+              BottomBar(),
             ])));
   }
 
@@ -366,11 +366,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               vertical: 4, horizontal: 25),
                                           child: Text(
                                             videos[index]
-                                                .data()["views"].toString(),
-                                            style: TextStyle(color: Colors.white),
+                                                .data()["views"]
+                                                .toString(),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                         )
-
                                       ],
                                     ),
                                   )
@@ -395,7 +396,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             }
           }
-          return Container();
+          return Container(
+            height: 0,
+            width: 0,
+          );
         });
   }
 }

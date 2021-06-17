@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktok_flutter/data/video.dart';
@@ -8,7 +7,6 @@ import 'package:tiktok_flutter/screens/profile_screen.dart';
 import 'package:tiktok_flutter/screens/search_screen.dart';
 import 'package:tiktok_flutter/widgets/actions_toolbar.dart';
 import 'package:tiktok_flutter/widgets/bottom_bar.dart';
-import 'package:tiktok_flutter/widgets/video_description.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';

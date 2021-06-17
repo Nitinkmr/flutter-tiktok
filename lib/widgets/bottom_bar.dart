@@ -9,7 +9,6 @@ import 'package:tiktok_flutter/screens/profile_screen.dart';
 import 'package:tiktok_flutter/screens/sign_in_screen.dart';
 import 'package:tiktok_flutter/utils/tik_tok_icons_icons.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tiktok_flutter/widgets/google_sign_in_button.dart';
 
 class BottomBar extends StatelessWidget {
   static const double NavigationIconSize = 20.0;
