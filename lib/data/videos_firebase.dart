@@ -5,9 +5,9 @@ import 'package:tiktok_flutter/data/video.dart';
 class VideosAPI {
   List<Video> listVideos = List<Video>();
 
-  VideosAPI() {
-    load();
-  }
+  // VideosAPI() {
+  //   load();
+  // }
 
   Future<void> load()  async {
     listVideos =  await getVideoList();

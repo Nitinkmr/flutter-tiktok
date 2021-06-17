@@ -14,32 +14,30 @@ import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';
 
 class FeedScreen extends StatefulWidget {
-  var videosList;
 
-
-  FeedScreen({Key key,this.videosList}) : super(key: key);
+  FeedScreen({Key key}) : super(key: key);
 
   @override
-  _FeedScreenState createState() => _FeedScreenState(videosList);
+  _FeedScreenState createState() => _FeedScreenState();
 }
 
 class _FeedScreenState extends State<FeedScreen> {
   //final locator = GetIt.instance;
-  var feedViewModel ;
-  var videosList;
+  var feedViewModel = GetIt.instance<FeedViewModel>();
   final locator = GetIt.instance;
-  
-  _FeedScreenState(videosList){
-    this.videosList = videosList;
-    this.feedViewModel = FeedViewModel(videosList);
-    locator.registerSingleton<FeedViewModel>( this.feedViewModel);
+
+  _FeedScreenState(){
+
   }
+
   @override
   void initState() {
     // for(int i=0;i<feedViewModel.videoSource.listVideos.length;i++){
     //   feedViewModel.loadVideo(i);
     // }
 
+    feedViewModel.loadVideo(0);
+    feedViewModel.loadVideo(1);
    // feedViewModel.loadVideo(1);
 
     super.initState();
