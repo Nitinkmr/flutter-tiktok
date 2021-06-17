@@ -9,12 +9,15 @@ class VideosAPI {
     load();
   }
 
-  void load() async {
-    listVideos = await getVideoList();
+  Future<void> load()  async {
+    listVideos =  await getVideoList();
   }
 
-  Future<List<Video>> getVideoList() async {
-    var data = await FirebaseFirestore.instance.collection("videos").get();
+  setVideosList(List videos  ){
+      this.listVideos = videos;
+  }
+  Future<List<Video>> getVideoList()  async {
+    var data =  await FirebaseFirestore.instance.collection("videos").get();
 
     var videoList = <Video>[];
     var videos;
@@ -36,7 +39,7 @@ class VideosAPI {
 
   Future<Null> addDemoData() async {
     for (var video in data) {
-      await FirebaseFirestore.instance.collection("Videos").add(video);
+      await FirebaseFirestore.instance.collection("videos").add(video);
     }
   }
 }

@@ -6,13 +6,23 @@ import 'package:video_player/video_player.dart';
 class FeedViewModel extends BaseViewModel {
   VideoPlayerController controller;
   VideosAPI videoSource;
-
+  List videos;
   int prevVideo = 0;
 
   int actualScreen = 0;
 
-  FeedViewModel() {
+  FeedViewModel(videosList){
+    this.videos = videosList;
+    init();
+  }
+
+  // FeedViewModel() {
+  //   videoSource = VideosAPI();
+  // }
+
+  init(){
     videoSource = VideosAPI();
+    videoSource.setVideosList(this.videos);
   }
 
   changeVideo(index) async {

@@ -14,25 +14,43 @@ import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';
 
 class FeedScreen extends StatefulWidget {
-  FeedScreen({Key key}) : super(key: key);
+  var videosList;
+
+
+  FeedScreen({Key key,this.videosList}) : super(key: key);
 
   @override
-  _FeedScreenState createState() => _FeedScreenState();
+  _FeedScreenState createState() => _FeedScreenState(videosList);
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  //final locator = GetIt.instance;
+  var feedViewModel ;
+  var videosList;
   final locator = GetIt.instance;
-  final feedViewModel = GetIt.instance<FeedViewModel>();
+  
+  _FeedScreenState(videosList){
+    this.videosList = videosList;
+    this.feedViewModel = FeedViewModel(videosList);
+    locator.registerSingleton<FeedViewModel>( this.feedViewModel);
+  }
   @override
   void initState() {
-    feedViewModel.loadVideo(0);
-    feedViewModel.loadVideo(1);
+    // for(int i=0;i<feedViewModel.videoSource.listVideos.length;i++){
+    //   feedViewModel.loadVideo(i);
+    // }
+
+   // feedViewModel.loadVideo(1);
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // feedViewModel.init();
+    // for(int i=0;i<feedViewModel.videoSource.listVideos.length;i++){
+    //   feedViewModel.loadVideo(i);
+    // }
     return ViewModelBuilder<FeedViewModel>.reactive(
         disposeViewModel: false,
         builder: (context, model, child) => videoScreen(),
@@ -59,8 +77,9 @@ class _FeedScreenState extends State<FeedScreen> {
             itemBuilder: (context, index) {
               if (index == 0)
                 return scrollFeed();
-              else
-                return profileView();
+              // TODO VERSION 2
+              //else
+                //return profileView();
             },
           )
         ],
@@ -68,7 +87,10 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  Widget profileView() {
+ /*
+
+ // TODO VERSION 2
+ Widget profileView() {
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -433,7 +455,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ]))),
     );
   }
-
+*/
   Widget scrollFeed() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -540,7 +562,7 @@ class _FeedScreenState extends State<FeedScreen> {
             : Container(
                 color: Colors.black,
                 child: Center(
-                  child: Text("Loadingd..."),
+                  child: Text("Loading..."),
                 ),
               ),
         Column(
