@@ -53,7 +53,7 @@ class FeedViewModel extends BaseViewModel {
     }
     if(index < videoSource.listVideos.length){
       await videoSource.listVideos[index].loadController();
-      //videoSource.listVideos[index].controller.play();
+      videoSource.listVideos[index].controller.play();
       notifyListeners();
     }
 
