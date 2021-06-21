@@ -30,13 +30,13 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void initState() {
-    // for(int i=0;i<feedViewModel.videoSource.listVideos.length;i++){
-    //   feedViewModel.loadVideo(i);
-    // }
+    for(int i=0;i<feedViewModel.videoSource.listVideos.length;i++){
+      feedViewModel.loadVideo(i);
+    }
 
-    feedViewModel.loadVideo(0);
-    feedViewModel.loadVideo(1);
-   // feedViewModel.loadVideo(1);
+   //  feedViewModel.loadVideo(0);
+   //  feedViewModel.loadVideo(1);
+    // feedViewModel.loadVideo(1);
 
     super.initState();
   }

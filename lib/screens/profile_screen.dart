@@ -354,7 +354,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           alignment: Alignment.bottomLeft,
                                           padding: EdgeInsets.symmetric(
                                               vertical: 0, horizontal: 0),
-                                          child: Icon(
+                                          child: Icon(const
                                             IconData(0xedb4,
                                                 fontFamily: 'MaterialIcons'),
                                             color: Colors.white,

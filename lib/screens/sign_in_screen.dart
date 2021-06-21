@@ -33,8 +33,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     Flexible(
                       flex: 1,
                       child: Image.asset(
-                        'assets/firebase_logo.png',
-                        height: 160,
+                        'assets/app_logo.jpg',
+                        height: 400,
                       ),
                     ),
                     SizedBox(height: 20),
