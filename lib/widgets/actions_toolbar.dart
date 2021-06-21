@@ -3,7 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/utils/tik_tok_icons_icons.dart';
 import 'package:tiktok_flutter/widgets/circle_image_animation.dart';
 
-class ActionsToolbar extends StatelessWidget {
+class ActionsToolbar  extends StatefulWidget {
+  String user;
+
+  String comments ;
+
+  String userPic;
+  String likes;
+
+  ActionsToolbar(String this.user, String this.likes, String this.comments, String this.userPic);
+
+
+  @override
+  ActionsToolbarState createState()  => ActionsToolbarState(user,likes,comments,userPic);
+}
+
+class ActionsToolbarState extends State<ActionsToolbar> {
   // Full dimensions of an action
   static const double ActionWidgetSize = 60.0;
 
@@ -19,12 +34,14 @@ class ActionsToolbar extends StatelessWidget {
 // The size of the plus icon under the profile image in follow action
   static const double PlusIconSize = 20.0;
 
-  final String numLikes;
-  final String numComments;
-  final String userPic;
+  bool clicked = false;
+
+   String numLikes;
+   String numComments;
+   String userPic;
    String userName;
 
-  ActionsToolbar(String userName,this.numLikes, this.numComments, this.userPic){
+  ActionsToolbarState(String userName,this.numLikes, this.numComments, this.userPic){
       if(userName.length > 7)
         userName =  userName.substring(0,7) + "...";
       this.userName = userName;
@@ -59,21 +76,38 @@ class ActionsToolbar extends StatelessWidget {
   }
 
   Widget _getSocialAction({String title, IconData icon, bool isShare = false}) {
-    return Container(
-        margin: EdgeInsets.only(top: 15.0),
-        width: 60.0,
-        height: 60.0,
-        child: Column(children: [
-          Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.grey[300]),
-          Padding(
-            padding: EdgeInsets.only(top: isShare ? 8.0 : 8.0),
-            child: Text(title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: isShare ? 14.0 : 14.0)),
-          )
-        ]));
+    return InkWell(
+      onTap: () async{
+
+        setState(() {
+          if(this.clicked == true)
+            this.numLikes = (int.parse(this.numLikes) - 1).toString();
+          else
+            this.numLikes = (int.parse(this.numLikes) + 1).toString();
+          this.clicked = !this.clicked;
+        });
+        },
+      child: Container(
+          margin: EdgeInsets.only(top: 15.0),
+          width: 60.0,
+          height: 60.0,
+          child: Column(children: [
+            clicked == false?
+            Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.grey[300])
+                :
+            Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.red[300]),
+            Padding(
+              padding: EdgeInsets.only(top: isShare ? 8.0 : 8.0),
+              child: Text(title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: isShare ? 14.0 : 14.0)),
+            )
+          ])),
+      );
+
+
   }
 
   Widget _getFollowAction({String pictureUrl}) {
@@ -160,4 +194,6 @@ class ActionsToolbar extends StatelessWidget {
                   ))),
         ]));
   }
+
+
 }
